@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="right_top_actions">
+        <form action="/team/add" method="GET">
+            <button class="svg-btn" type="submit"><img title="Neu" src="{{ url_for('static',filename='images/icons/326505_add.svg') }}" /></button>
+        </form>
+    </div>
+    <div class="content-table">
+        <table id="teamTable" class="steelBlueCols tablesorter">
+            <thead>
+                <tr>
+                    <th class="hidden">ID</th>
+                    <th class="cell-120">Name</th>
+                    <th class="cell-120">Mitglieder</th>
+                    <th class="hidden">Leitung ID</th>
+                    <th class="cell-120">Leitung</th>
+                    <th class="hidden">Vertreter ID</th>
+                    <th class="cell-120">Vertreter</th>
+                    <th class="cell-100">Warnung</th>
+                    <th class="cell-60">Min</th>
+                    <th class="cell-60">Max</th>
+                    <th class="sorter-false"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for team in teams %}
+                <tr>
+                    <td class="hidden">{{team.id}}</td>
+                    <td class="cell-120">{{team.name}}</td>
+                    <td class="cell-120">{{team.member}}</td>
+                    <td class="hidden">{{team.leadid}}</td>
+                    <td class="cell-120">{{team.lead}}</td>
+                    <td class="hidden">{{team.coleadid}}</td>
+                    <td class="cell-120">{{team.colead}}</td>
+                    <td class="cell-100">{{team.warning}}</td>
+                    <td class="cell-60">{{team.min}}</td>
+                    <td class="cell-60">{{team.max}}</td>
+                    <td class="btns-line">
+                        <form action="/team/edit/{{team.id}}" method="GET">
+                            <button class="svg-btn" type="submit"><img title="Bearbeiten" src="{{ url_for('static',filename='images/icons/326602_pencil_write_create_edit.svg') }}" /></button>
+                        </form>
+                        <form action="/team/delete" method="POST">
+                            <input type="hidden" id="teamid" name="teamid" value="{{team.id}}">
+                            <button class="svg-btn" type="submit"><img title="Löschen" src="{{ url_for('static',filename='images/icons/326606_delete.svg') }}" /></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            $(function() {
+                $("table").tablesorter({sortList: [[1,0]]});
+            });
+        </script>
+    </div>
+{% endblock %}

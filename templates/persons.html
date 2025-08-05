@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="right_top_actions">
+        <form action="/person/add" method="GET">
+            <button class="svg-btn" type="submit"><img title="Neu" src="{{ url_for('static',filename='images/icons/326505_add.svg') }}" /></button>
+        </form>
+    </div>
+    <div id="personTable" class="content-table">
+        <table class="steelBlueCols tablesorter">
+            <thead>
+                <tr>
+                    <th class="hidden">ID</th>
+                    <th class="cell-120">Vorname</th>
+                    <th class="cell-120">Nachname</th>
+                    <th class="cell-150">eMail</th>
+                    <th class="cell-160">Wochenstunden</th>
+                    <th class="cell-100">Prozent</th>
+                    <th class="sorter-false"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for person in persons %}
+                <tr>
+                    <td class="hidden">{{person.id}}</td>
+                    <td class="cell-120">{{person.surname}}</td>
+                    <td class="cell-120">{{person.lastname}}</td>
+                    <td class="cell-150">{{person.mail}}</td>
+                    <td class="cell-160">{{person.workhours}} Stunden</td>
+                    <td class="cell-100">{{person.workpercentage}} %</td>
+                    <td class="btns-line">
+                        <form action="/person/edit/{{person.id}}" method="GET">
+                            <button class="svg-btn" type="submit"><img title="Bearbeiten" src="{{ url_for('static',filename='images/icons/326602_pencil_write_create_edit.svg') }}" /></button>
+                        </form>
+                        <form action="/person/absence/{{person.id}}" method="GET">
+                            <button class="svg-btn" type="submit"><img title="Abwesenheit" src="{{ url_for('static',filename='images/icons/326727_suitcase_work.svg') }}" /></button>
+                        </form>
+                        <form action="/person/manageteams/{{person.id}}" method="GET">
+                            <button class="svg-btn" type="submit"><img title="Mitgliedschaften" src="{{ url_for('static',filename='images/icons/9055552_bxs_group_icon.svg') }}" /></button>
+                        </form>
+                        <form action="/person/delete" method="POST">
+                            <input type="hidden" id="personid" name="personid" value="{{person.id}}">
+                            <button class="svg-btn" type="submit"><img title="Löschen" src="{{ url_for('static',filename='images/icons/326606_delete.svg') }}" /></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            $(function() {
+                $("table").tablesorter({sortList: [[2,0]]});
+            });
+        </script>
+    </div>
+{% endblock %}

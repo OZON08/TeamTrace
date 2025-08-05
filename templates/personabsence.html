@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <div class="right_top_actions">
+            <a href="/persons"><img class="svg-btn" title="Abbrechen" src="{{ url_for('static',filename='images/icons/326579_close.svg') }}" /></a>
+        </div>
+        <div class="content-table">
+            <form action="{{absence.url}}" method="POST">
+                <table id="person-absence">
+                    <tr>
+                        <td>
+                            <label for="start">Start:</label>
+                            <input type="text" name="start" id="start" required/>
+                        </td>
+                        <td>
+                            <label for="end">Ende:</label>
+                            <input type="text" name="end" id="end" required/>
+                        </td>
+                        <td>
+                            <label for="length">Dauer:</label>
+                            <select name="length" id="length" required>
+                                {% for row in absence.length %}
+                                <option value="{{row.value}}" {{row.selected}}>{{row.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="hidden" id="personid" name="personid" value="{{absence.personid}}">
+                            <button class="margin-top-23 svg-btn" type="submit"><img title="Speichern" src="{{ url_for('static',filename='images/icons/326572_check.svg') }}" /></button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <script>
+                $( function() {
+                    $( "#start" ).datepicker({
+                        prevText: '&#x3c;zurück', prevStatus: '',
+                        prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+                        nextText: 'Vor&#x3e;', nextStatus: '',
+                        nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+                        currentText: 'heute', currentStatus: '',
+                        todayText: 'heute', todayStatus: '',
+                        clearText: '-', clearStatus: '',
+                        closeText: 'schließen', closeStatus: '',
+                        monthNames: ['Januar','Februar','März','April','Mai','Juni',
+                        'Juli','August','September','Oktober','November','Dezember'],
+                        monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+                        'Jul','Aug','Sep','Okt','Nov','Dez'],
+                        dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                        dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        showMonthAfterYear: false,
+                        showOn: 'focus',
+                        dateFormat:'dd.mm.yy',
+                        firstDay: 1
+                        } );
+                } );
+
+                $( function() {
+                    $( "#end" ).datepicker({
+                        prevText: '&#x3c;zurück', prevStatus: '',
+                        prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+                        nextText: 'Vor&#x3e;', nextStatus: '',
+                        nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+                        currentText: 'heute', currentStatus: '',
+                        todayText: 'heute', todayStatus: '',
+                        clearText: '-', clearStatus: '',
+                        closeText: 'schließen', closeStatus: '',
+                        monthNames: ['Januar','Februar','März','April','Mai','Juni',
+                        'Juli','August','September','Oktober','November','Dezember'],
+                        monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+                        'Jul','Aug','Sep','Okt','Nov','Dez'],
+                        dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                        dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        showMonthAfterYear: false,
+                        showOn: 'focus',
+                        dateFormat:'dd.mm.yy',
+                        firstDay: 1
+                        } );
+                } );
+            </script>
+            <table class="steelBlueCols tablesorter">
+                <thead>
+                    <tr>
+                        <th class="hidden">ID</th>
+                        <th>Start</th>
+                        <th>Ende</th>
+                        <th>Dauer</th>
+                        <th class="sorter-false"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for appointment in absence.appointments %}
+                    <tr>
+                        <td class="hidden">{{appointment.id}}</td>
+                        <td>{{appointment.start}}</td>
+                        <td>{{appointment.end}}</td>
+                        {% if appointment.length == 100 %}
+                        <td>Ganzer Tag</td>
+                        {% else %}
+                        <td>Halber Tag</td>
+                        {% endif %}
+                        <td class="btns-line">
+                            <form action="/person/absencedelete" method="POST">
+                                <input type="hidden" id="appointmentid" name="appointmentid" value="{{appointment.id}}">
+                                <input type="hidden" id="personid" name="personid" value="{{absence.personid}}">
+                                <button class="svg-btn" type="submit"><img title="Löschen" src="{{ url_for('static',filename='images/icons/326606_delete.svg') }}" /></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <script>
+                $(function() {
+                    $(".steelBlueCols").tablesorter();
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}

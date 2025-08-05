@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-table">
+        <table class="steelBlueCols">
+            <thead>
+                <tr>
+                    <th>Entwickler</th>
+                    <th>Version</th>
+                    <th>Lizenz</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OZON08 (<a href="https://github.com/ozon08" target="_blank">GitHub</a>)</td>
+                    <td>{{ appconfig.version }}</td>
+                    <td>GPL</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="changelog">{{ changelog|safe }}</div>
+    </div>
+{% endblock %}

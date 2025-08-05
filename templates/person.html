@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <form action="{{person.url}}" method="POST">
+            <div class="right_top_actions">
+                <button class="svg-btn" type="submit"><img title="Speichern" src="{{ url_for('static',filename='images/icons/326572_check.svg') }}" /></button>
+                <a href="/persons"><img class="svg-btn" title="Abbrechen" src="{{ url_for('static',filename='images/icons/326579_close.svg') }}" /></a>
+            </div>
+            <div class="content-table">
+                <table class="person-new">
+                    <tr>
+                        <td>
+                            <label for="surname">Vorname:</label>
+                            <input type="text" name="surname" id="surname" value="{{person.surname}}" required/>
+                        </td>
+                        <td>
+                            <label for="lastname">Nachname:</label>
+                            <input type="text" name="lastname" id="lastname" value="{{person.lastname}}" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label for="mail">eMail:</label>
+                            <input type="email" name="mail" id="mail" value="{{person.mail}}" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="workhours">Wochenstunden (in Stunden):</label>
+                            <input type="number" name="workhours" id="workhours" min="0" max="40" step="1" oninput="this.value = Math.round(this.value);" value="{{person.workhours}}" required/>
+                        </td>
+                        <td>
+                            <label for="workpercentage">Prozent (in %):</label>
+                            <input type="number" name="workpercentage" id="workpercentage" min="0" max="100" step="1" oninput="this.value = Math.round(this.value);" value="{{person.workpercentage}}" required/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+{% endblock %}

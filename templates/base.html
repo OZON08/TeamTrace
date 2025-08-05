@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
+	<title>TeamTrace - {{ appconfig.title }}</title>
+	<meta name="description" content="TeamTrace">
+    <link rel="icon" type="image/png" sizes="128x128" href="{{ url_for('static',filename='images/favicon-128x128.png') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static',filename='images/favicon-64x64.png') }}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ url_for('static',filename='images/favicon-48x48.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static',filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static',filename='images/favicon-16x16.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='assets/jquery-multi-select/css/multi-select.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='assets/jquery-ui/jquery-ui.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='assets/jquery/jquery-3.7.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='assets/jquery-tablesorter/js/jquery.tablesorter.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='assets/jquery-multi-select/js/jquery.multi-select.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='assets/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/chartjs/dist/chart.umd.min.js') }}"></script>
+</head>
+
+<body>
+    <nav>
+        <a href="/">Übersicht</a>
+        <a href="/persons">Personen</a>
+        <a href="/teams">Teams</a>
+        <a href="/about">Über</a>
+    </nav>
+    <div class="site">
+        <div class="headline">
+            <h1>{{ appconfig.title }}</h1>
+        </div>
+        <div class="content">
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+    <script>
+        async function getRequest(url = '') {
+            const response = await fetch(url, {
+                method: 'GET',
+                cache: 'no-cache'
+            })
+            return response.json()
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            let url = "/flaskwebgui-keep-server-alive"
+            let interval_request = 3 * 1000 //sec
+            function keep_alive_server() {
+                getRequest(url)
+                    .then(data => console.log(data))
+            }
+            setInterval(keep_alive_server, interval_request)
+        })
+    </script>
+</body>
+</html>

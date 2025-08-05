@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <div class="right_top_actions">
+            <form action="{{view.url}}" method="POST">
+                <table id="view">
+                    <tr>
+                        <td>
+                            <label for="start">Start:</label>
+                            <input type="text" name="start" id="start" value="{{view.startdate}}" required/>
+                        </td>
+                        <td>
+                            <label for="end">Ende:</label>
+                            <input type="text" name="end" id="end" value="{{view.enddate}}" required/>
+                        </td>
+                        <td>
+                            <button class="margin-top-23 svg-btn" type="submit"><img title="Zeitraum ändern" src="{{ url_for('static',filename='images/icons/326655_history.svg') }}" /></button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <script>
+                $( function() {
+                    $( "#start" ).datepicker({
+                        prevText: '&#x3c;zurück', prevStatus: '',
+                        prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+                        nextText: 'Vor&#x3e;', nextStatus: '',
+                        nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+                        currentText: 'heute', currentStatus: '',
+                        todayText: 'heute', todayStatus: '',
+                        clearText: '-', clearStatus: '',
+                        closeText: 'schließen', closeStatus: '',
+                        monthNames: ['Januar','Februar','März','April','Mai','Juni',
+                        'Juli','August','September','Oktober','November','Dezember'],
+                        monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+                        'Jul','Aug','Sep','Okt','Nov','Dez'],
+                        dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                        dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        showMonthAfterYear: false,
+                        showOn: 'focus',
+                        dateFormat:'dd.mm.yy',
+                        firstDay: 1
+                        } );
+                } );
+
+                $( function() {
+                    $( "#end" ).datepicker({
+                        prevText: '&#x3c;zurück', prevStatus: '',
+                        prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+                        nextText: 'Vor&#x3e;', nextStatus: '',
+                        nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+                        currentText: 'heute', currentStatus: '',
+                        todayText: 'heute', todayStatus: '',
+                        clearText: '-', clearStatus: '',
+                        closeText: 'schließen', closeStatus: '',
+                        monthNames: ['Januar','Februar','März','April','Mai','Juni',
+                        'Juli','August','September','Oktober','November','Dezember'],
+                        monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+                        'Jul','Aug','Sep','Okt','Nov','Dez'],
+                        dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                        dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                        showMonthAfterYear: false,
+                        showOn: 'focus',
+                        dateFormat:'dd.mm.yy',
+                        firstDay: 1
+                        } );
+                } );
+            </script>
+        </div>
+        <div class="empty-block">&nbsp;</div>
+        <div class="content-table-root">
+            {% for team in teams %}
+                <div class="team-row">
+                    <div class="team-info {{ team.infoclass}}">
+                        <h3>{{ team.name }}</h3>
+                        <span>
+                            {{ team.member }}<br />
+                            {{ team.lead }}<br />
+                            {{ team.colead }}
+                        </span>
+                    </div>
+                    <div class="team-chart {{ team.chartclass}}"><canvas style="margin: 0px;" id="team-chart-{{ team.id }}"></canvas></div>
+                    <script>
+                        (async function() {
+                        const data = [
+                            {% for team_view in team.view %}
+                            {% if team_view.firstrow == True %}
+                            { date: '{{ team_view.date }}', count: '{{ team_view.dayworkhours }}', warning: '{{ team_view.warning }}', min: '{{ team_view.min }}', max: '{{ team_view.max }}' }
+                            {% else %}
+                            ,{ date: '{{ team_view.date }}', count: '{{ team_view.dayworkhours }}', warning: '{{ team_view.warning }}', min: '{{ team_view.min }}', max: '{{ team_view.max }}' }
+                            {% endif %}
+                            {% endfor %}
+                        ];
+
+                        var myChart{{ team.id }} = new Chart(
+                            document.getElementById('team-chart-{{ team.id }}'),
+                            {
+                            data: {
+                                labels: data.map(row => row.date),
+                                datasets: [{
+                                    type: 'bar',
+                                    label: 'Aktuelle Verfügbarkeit',
+                                    data: data.map(row => row.count),
+                                    backgroundColor: '#398AA4',
+                                    borderColor: '#398AA4'
+                                }, {
+                                    type: 'line',
+                                    label: 'Warning',
+                                    data: data.map(row => row.warning),
+                                    backgroundColor: '#F5E216',
+                                    borderColor: '#F5E216',
+                                    pointRadius: 0
+                                }, {
+                                    type: 'line',
+                                    label: 'Min',
+                                    data: data.map(row => row.min),
+                                    backgroundColor: '#F52916',
+                                    borderColor: '#F52916',
+                                    pointRadius: 0
+                                }, {
+                                    type: 'line',
+                                    label: 'Max',
+                                    data: data.map(row => row.max),
+                                    backgroundColor: '#16F529',
+                                    borderColor: '#16F529',
+                                    pointRadius: 0
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        display: false,
+                                    }
+                                },
+                                responsive:true,
+                                maintainAspectRatio: false
+                            }
+                            }
+                        );
+                        })();
+                    </script>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

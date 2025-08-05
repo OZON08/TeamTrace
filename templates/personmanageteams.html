@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <form action="{{person.url}}" method="POST">
+            <div class="right_top_actions">
+                <button class="svg-btn" type="submit"><img title="Speichern" src="{{ url_for('static',filename='images/icons/326572_check.svg') }}" /></button>
+                <input type="hidden" name="teamcount" id="teamcount" value="{{person.membercount}}"/>
+                <a href="/persons"><img class="svg-btn" title="Abbrechen" src="{{ url_for('static',filename='images/icons/326579_close.svg') }}" /></a>
+            </div>
+            <div class="content-table">
+                <table id="manage-teams">
+                    <thead>
+                        <tr>
+                            <td>
+                                <label for="team">Team:</label>
+                            </td>
+                            <td>
+                                <label for="percentage">Prozent (in %):</label>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in memberof %}
+                        <tr data-index="{{member.row}}">
+                            <td>
+                                <select name="team-{{member.row}}" id="team-{{member.row}}" class="cell-300" required>
+                                    {% for team in member.teams %}
+                                    <option value="{{team.id}}" {{team.selected}}>{{team.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" name="percentage-{{member.row}}" id="percentage-{{member.row}}" min="0" max="100" step="1" oninput="this.value = Math.round(this.value);" value="{{member.percentage}}" required/>
+                            </td>
+                            <td>
+                                {% if member.row == 1 %}
+                                <i onclick="addRow()"><img class="svg-btn" title="Team hinzufügen" src="{{ url_for('static',filename='images/icons/326505_add.svg') }}" /></i>
+                                {% else %}
+                                <i onclick="removeRow({{member.row}})"><img class="svg-btn" title="Team löschen" src="{{ url_for('static',filename='images/icons/326579_close.svg') }}" /></i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <script>
+            let i = {{person.membercount}};
+            let j = i - 1;
+
+            function rowTemplate(i) {
+            return `<tr data-index=${i}>
+                <td>
+                    <select name="team-${i}" id="team-${i}" class="cell-300" required>
+                        {% for team in teams %}
+                        <option value="{{team.id}}">{{team.name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="percentage-${i}" id="percentage-${i}" min="0" max="100" step="1" oninput="this.value = Math.round(this.value);" value="10" required/>
+                </td>
+                <td><i onclick="removeRow(${i})"><img class="svg-btn" title="Team löschen" src="{{ url_for('static',filename='images/icons/326579_close.svg') }}" /></i></td>
+                </tr>`
+            }
+
+            function removeRow(i) {
+            $("#manage-teams tbody").find(`tr[data-index='${i}']`).remove();
+            j--;
+            document.getElementById("teamcount").value = j;
+            }
+
+            function addRow() {
+            $('#manage-teams tbody').append(rowTemplate(i));
+            i++;
+            j++;
+            document.getElementById("teamcount").value = j;
+            }
+        </script>
+    </div>
+{% endblock %}

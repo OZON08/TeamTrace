@@ -1,0 +1,18 @@
+database: C:\ProgramData\TeamTrace\teamtrace.sqlite  ## Database Path
+view-size: 31               ## Days
+base-week-hours: 39         ## Hours
+base-week-workdays:
+  - monday
+  - tuesday
+  - wednesday
+  - thursday
+  - friday
+  ##- saturday
+  ##- sunday
+team:
+  warning: 80
+  min: 40
+  max: 100
+person:
+  workhours: 39             ## Hours
+  workpercentage: 100       ## %
