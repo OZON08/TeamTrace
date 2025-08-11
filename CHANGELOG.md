@@ -1,8 +1,29 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+Alle wesentlichen &Auml;nderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
 <!-- markdownlint-disable MD024 MD012 -->
+
+## 1.0.2.0 (2025-08-11)
+
+
+### Versionshinweise
+
+Kleine Anpassungen in der Oberfl&auml;che.
+
+### Features
+
+* Anpassung der Team-Reihenfolge in der &Uuml;bersicht, Sortierung nach dem Alphabet
+
+### Bugfixes
+
+* Fehler bei der Anzeige der Team-Mitglieder in der &Uuml;bersicht
+
+### Dokumentation
+
+* &Auml;nderung des Changelogs auf deutsche Sprache
+
+&nbsp;
 
 ## 1.0.1.0 (2025-08-05)
 
@@ -13,7 +34,7 @@ Erweiterung der Datebank.
 
 ### Features
 
-* Config Table in der Datenbank hinzugefügt.
+* Config Table in der Datenbank hinzugef&uuml;gt.
 
 ### Bugfixes
 

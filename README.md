@@ -5,6 +5,10 @@
     <p align="center">A small tool to monitor our team capacity.</p>
 </p>
 
+## GUI
+The GUI is built using HTML, CSS, and JavaScript. The layout is simple and clean, but at the moment only in German.
+
+
 ## Build
 To build the application, open a comandline, navigate to the repo root folder an start the **build.bat**.
 
@@ -18,4 +22,4 @@ Find under **static/assets**
 - Chart.js 4.5.0 - https://www.chartjs.org/
 
 ## License
-TeamTrace is available under the [GPL License](LICENSE.md)
+TeamTrace is available under the [GPL License](LICENSE)

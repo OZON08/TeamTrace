@@ -16,7 +16,7 @@ with open("config.yaml") as f:
     cfg = yaml.load(f, Loader=yaml.FullLoader)
 
 appconfig = {'title': None}
-appconfig['version'] = "1.0.1.0"  ### Hauptversion.Nebenversion.Revisionsnummer.Buildnummer
+appconfig['version'] = "1.0.2.0"  ### Hauptversion.Nebenversion.Revisionsnummer.Buildnummer
 
 ## Create Database if not exisits
 def create_db():
@@ -136,7 +136,7 @@ def root():
         connection = sqlite3.connect(cfg["database"])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM team")
+        cursor.execute("SELECT * FROM team ORDER BY name ASC")
 
         rows = cursor.fetchall()
 

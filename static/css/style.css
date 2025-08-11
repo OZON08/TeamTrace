@@ -326,11 +326,11 @@ table#view {
 
 .team-info {
     float: left;
-    width: 200px;
+    width: 220px;
     height: 100%;
     display: block;
     text-align: center;
-    word-break: break-all;
+    word-break: break-word;
     background-color: #398AA4;
     color: #ffffff;
     border-top: #ffffff 1px solid;
@@ -342,9 +342,9 @@ table#view {
 }
 
 .team-chart {
-    margin-left: 200px;
+    margin-left: 220px;
     height: 100%;
-    width: calc(100% - 200px);
+    width: calc(100% - 220px);
     background-color: #ffffff;
     border-right: #398AA4 1px solid;
     border-bottom: #398AA4 1px solid;
