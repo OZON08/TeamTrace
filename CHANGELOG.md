@@ -4,6 +4,25 @@ Alle wesentlichen &Auml;nderungen an diesem Projekt werden in dieser Datei dokum
 
 <!-- markdownlint-disable MD024 MD012 -->
 
+## 1.0.3.0 (2025-08-15)
+
+
+### Versionshinweise
+
+Fehlerbehebung bei Personen und Versch&ouml;nerung der Oberfl&auml;che
+
+### Features
+
+* Anpassung der Team-Reihenfolge bei der Teamzuordnung, Sortierung nach dem Alphabet
+
+### Bugfixes
+
+* Fehler beim L&ouml;schen, Teamzuordnung und Abwesenheit bei Personen mit mehrstelligen IDs behoben
+
+### Dokumentation
+
+&nbsp;
+
 ## 1.0.2.0 (2025-08-11)
 
 

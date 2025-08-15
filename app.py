@@ -16,7 +16,7 @@ with open("config.yaml") as f:
     cfg = yaml.load(f, Loader=yaml.FullLoader)
 
 appconfig = {'title': None}
-appconfig['version'] = "1.0.2.0"  ### Hauptversion.Nebenversion.Revisionsnummer.Buildnummer
+appconfig['version'] = "1.0.3.0"  ### Hauptversion.Nebenversion.Revisionsnummer.Buildnummer
 
 ## Create Database if not exisits
 def create_db():
@@ -342,12 +342,12 @@ def person_absence(personid):
             connection = sqlite3.connect(cfg["database"])
 
             cursor = connection.cursor()
-            cursor.execute("SELECT surname, lastname FROM person WHERE id = ?", (personid))
+            cursor.execute("SELECT surname, lastname FROM person WHERE id = " + str(personid))
 
             person = cursor.fetchone()
 
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM absence WHERE person = ? ORDER BY id DESC", (personid))
+            cursor.execute("SELECT * FROM absence WHERE person = " + str(personid) + " ORDER BY id DESC")
 
             appointments = cursor.fetchall()
 
@@ -404,9 +404,8 @@ def person_absencedelete():
 
         cursor = connection.cursor()
 
-        sql = ''' DELETE FROM absence WHERE id = ? '''
-        data = (id)
-        cursor.execute(sql, data)
+        sql = "DELETE FROM absence WHERE id = " + str(id)
+        cursor.execute(sql)
 
         connection.commit()
 
@@ -423,14 +422,15 @@ def person_manageteams(personid):
             connection = sqlite3.connect(cfg["database"])
 
             cursor = connection.cursor()
-            cursor.execute("SELECT surname, lastname FROM person WHERE id = ?", (personid))
+            sql = "SELECT surname, lastname FROM person WHERE id = " + str(personid)
+            cursor.execute(sql)
 
             person = cursor.fetchone()
 
             appconfig['title'] = "Teams zuweisen für " + person[0] + " " + person[1]
 
             cursor = connection.cursor()
-            cursor.execute("SELECT id, name FROM team")
+            cursor.execute("SELECT id, name FROM team ORDER BY name ASC")
 
             team_rows = cursor.fetchall()
             team_list = []
@@ -441,14 +441,15 @@ def person_manageteams(personid):
                 team_list.append(team_details)
 
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM person_team_mapping WHERE person = ?", (personid))
+            sql = "SELECT * FROM person_team_mapping WHERE person = " + str(personid)
+            cursor.execute(sql)
 
             rows = cursor.fetchall()
 
             teamcount = 1
             memberof = []
 
-            if len(rows) == 0:
+            if not rows:
                 member_details = {'row': 1, 'percentage': 100}
                 member_details['teams'] = team_list
                 teamcount = teamcount + 1
@@ -598,9 +599,8 @@ def person_delete():
 
         cursor = connection.cursor()
 
-        sql = ''' DELETE FROM person WHERE id = ? '''
-        data = (id)
-        cursor.execute(sql, data)
+        sql = "DELETE FROM person WHERE id = " + str(id)
+        cursor.execute(sql)
 
         connection.commit()
 
