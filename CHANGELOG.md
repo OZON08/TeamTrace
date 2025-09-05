@@ -4,6 +4,23 @@ Alle wesentlichen &Auml;nderungen an diesem Projekt werden in dieser Datei dokum
 
 <!-- markdownlint-disable MD024 MD012 -->
 
+## 1.0.4.0 (2025-09-05)
+
+
+### Versionshinweise
+
+Fehlerbehebung bei der Personen-Team-Zuordnung
+
+### Features
+
+### Bugfixes
+
+* Fehler beim bearbeiten der Teamzuordnung behoben
+
+### Dokumentation
+
+&nbsp;
+
 ## 1.0.3.0 (2025-08-15)
 
 

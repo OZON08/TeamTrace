@@ -16,7 +16,7 @@ with open("config.yaml") as f:
     cfg = yaml.load(f, Loader=yaml.FullLoader)
 
 appconfig = {'title': None}
-appconfig['version'] = "1.0.3.0"  ### Hauptversion.Nebenversion.Revisionsnummer.Buildnummer
+appconfig['version'] = "1.0.4.0"  ### Hauptversion.Nebenversion.Revisionsnummer.Buildnummer
 
 ## Create Database if not exisits
 def create_db():
@@ -446,7 +446,7 @@ def person_manageteams(personid):
 
             rows = cursor.fetchall()
 
-            teamcount = 1
+            teamcount = 0
             memberof = []
 
             if not rows:
@@ -456,6 +456,7 @@ def person_manageteams(personid):
                 memberof.append(member_details)
             else:
                 for row in rows:
+                    teamcount = teamcount + 1
                     member_details = {'row': None, 'percentage': None}
                     member_details['row'] = teamcount
                     team_list_selected = []
@@ -468,7 +469,6 @@ def person_manageteams(personid):
                         team_list_selected.append(team_details)
                     member_details['teams'] = team_list_selected
                     member_details['percentage'] = row[3]
-                    teamcount = teamcount + 1
                     memberof.append(member_details)
 
             person = {}
@@ -485,7 +485,6 @@ def person_manageteams(personid):
         teamcount = request.values.get('teamcount')
 
         mappings = []
-
         count = 1
         while count <= int(teamcount):
             mapping_add = True
@@ -512,23 +511,23 @@ def person_manageteams(personid):
 
             cursor = connection.cursor()
 
-            sql = ''' DELETE FROM person_team_mapping WHERE person = ? '''
-            data = (personid)
-            cursor.execute(sql, data)
+            sql = "DELETE FROM person_team_mapping WHERE person = '" + str(personid) + "'"
+            cursor.execute(sql)
 
             connection.commit()
 
-            for mapping in mappings: 
+            for mapping in mappings:
                 cursor = connection.cursor()
 
                 sql = ''' INSERT INTO person_team_mapping(person,team,percentage) VALUES(?,?,?) '''
-                data = (personid, int(mapping['teamid']), mapping['percentage'])
+                data = (personid, str(mapping['teamid']), str(mapping['percentage']))
                 cursor.execute(sql, data)
 
                 connection.commit()
 
         except Exception as e:
             print(f"An error occurred: {e}")
+            print(traceback.print_exc())
         finally:
             connection.close()
         return redirect(url_for('person'))
